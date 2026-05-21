@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+:root {
+  --primary: var(--color-neutral-800);
+  --secondary: var(--color-neutral-600);
+}
+
+.dark {
+  --primary: var(--color-neutral-100);
+  --secondary: var(--color-neutral-400);
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+}
