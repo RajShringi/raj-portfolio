@@ -75,9 +75,9 @@ export default function Skills() {
             key={skill.id}
             initial="initial"
             whileHover="hover"
-            className="relative flex items-center gap-2 text-xs bg-neutral-100 py-1 px-2 border border-dashed border-secondary rounded-md hover:bg-neutral-50 overflow-hidden"
+            className="relative flex items-center gap-2 text-xs bg-neutral-100 py-1 px-2 border border-secondary rounded-md hover:bg-neutral-50 overflow-hidden"
           >
-            <Image src={skill.img} alt={skill.name} width={15} height={15} />
+            {/* <Image src={skill.img} alt={skill.name} width={15} height={15} /> */}
             <span className="font-semibold">{skill.name}</span>
           </motion.div>
         ))}
