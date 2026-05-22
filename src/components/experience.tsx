@@ -1,4 +1,5 @@
 "use client";
+import { BriefcaseBusiness } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 
@@ -43,18 +44,18 @@ export default function Experience() {
           <motion.div
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.3, ease: "easeInOut", delay: idx * 0.3 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             key={exp.id}
-            className="grid grid-cols-[150px_1fr] items-start gap-4"
+            className="grid grid-cols-[auto_1fr_150px] items-center gap-4 py-3 px-4 hover:bg-neutral-50/10 hover:transition-background duration-400 ease-in-out"
           >
             {/* left */}
             <div>
-              <p className="text-sm ">{exp.duration}</p>
+              <BriefcaseBusiness />
             </div>
-            {/* right */}
+            {/* middle */}
             <div>
               <div className="flex items-center gap-2">
-                <h5 className="font-semibold  leading-none flex items-center gap-1">
+                <h5 className="font-semibold leading-none flex items-center gap-1">
                   <span>{exp.title}</span>
                   <span className="text-muted-foreground"> · </span>
                   <Link href="/">
@@ -63,6 +64,10 @@ export default function Experience() {
                 </h5>
               </div>
               <p className="text-sm text-secondary">{exp.description}</p>
+            </div>
+            {/* right */}
+            <div>
+              <p className="text-sm ">{exp.duration}</p>
             </div>
           </motion.div>
         ))}
