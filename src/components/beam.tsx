@@ -1,40 +1,87 @@
 "use client";
+
 import { motion } from "motion/react";
+
 export default function Beam() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden  blur-md">
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      {/* Main Apple-style aurora */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className=" absolute top-0 left-0 h-220 w-100 bg-linear-to-br 
-    from-slate-200/5
-    via-slate-300/10
-    to-white/20 opacity-80 pointer-events-none"
-        style={{
-          clipPath: "polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)",
-        }}
+        transition={{ duration: 1.4 }}
+        className="
+          absolute
+          top-[-40px]
+          right-[-220px]
+          h-[620px]
+          w-[620px]
+          rounded-full
+          blur-3xl
+          bg-linear-to-br
+          from-cyan-200/12
+          via-sky-300/6
+          to-transparent
+        "
       />
 
+      {/* Soft violet atmospheric layer */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className=" absolute top-0 right-0 h-220 w-100 bg-linear-to-br 
-    from-slate-200/5
-    via-slate-300/10
-    to-white/20 opacity-80 pointer-events-none"
-        style={{
-          clipPath: "polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%)",
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.8 }}
+        className="
+          absolute
+          top-40
+          right-[-140px]
+          h-[420px]
+          w-[420px]
+          rounded-full
+          blur-3xl
+          bg-linear-to-br
+          from-violet-300/8
+          via-fuchsia-200/4
+          to-transparent
+        "
       />
-      {/* <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className=" absolute top-30 left-1/2 -translate-x-1/2 h-50 w-full max-w-2xl blur-3xl
-         bg-linear-to-br from-blue-400 via-yellow-400 to-transparent"
-      ></motion.div> */}
+
+      {/* Thin Apple-like light streak */}
+      <motion.div
+        initial={{ opacity: 0, rotate: -14 }}
+        animate={{ opacity: 1, rotate: -14 }}
+        transition={{ duration: 2 }}
+        className="
+          absolute
+          top-64
+          right-[-320px]
+          h-[140px]
+          w-[820px]
+          rotate-[-14deg]
+          rounded-full
+          blur-3xl
+          bg-linear-to-r
+          from-transparent
+          via-cyan-100/6
+          to-transparent
+        "
+      />
+
+      {/* Tiny light source */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.6 }}
+        className="
+          absolute
+          top-36
+          right-44
+          h-[90px]
+          w-[90px]
+          rounded-full
+          blur-2xl
+          bg-cyan-100/10
+        "
+      />
     </div>
   );
 }
