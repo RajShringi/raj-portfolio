@@ -1,16 +1,25 @@
 import Container from "./container";
 import Socials from "./socials";
 
-export default function footer() {
+export default function Footer() {
   return (
     <Container>
-      <div className="flex items-center justify-between py-4 px-4">
-        <div className="text-sm text-muted-foreground">
-          copyright © {new Date().getFullYear()} Raj Shringi. All rights
+      <footer
+        className="
+          flex flex-col items-center gap-4
+          px-4 py-6
+          text-center
+          sm:flex-row sm:justify-between
+          sm:text-left
+        "
+      >
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Copyright © {new Date().getFullYear()} Raj Shringi. All rights
           reserved.
-        </div>
+        </p>
+
         <Socials />
-      </div>
+      </footer>
     </Container>
   );
 }

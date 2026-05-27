@@ -1,4 +1,5 @@
 "use client";
+
 import { motion } from "motion/react";
 import Link from "next/link";
 import { FaGithub, FaLink } from "react-icons/fa6";
@@ -58,44 +59,71 @@ export default function Projects() {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="flex flex-col gap-4 px-4"
     >
-      <h4 className="uppercase tracking-widest ">Projects</h4>
-      <div className="grid grid-cols-1 gap-4">
-        {projects.map((project, idx) => (
-          <motion.div
-            key={idx}
+      <h4 className="uppercase tracking-widest">Projects</h4>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {projects.map((project) => (
+          <motion.article
+            key={project.id}
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden rounded-lg flex-col gap-8
-            transition-colors duration-300 ease-in-out hover:bg-neutral-50/10"
+            className="
+              group flex h-full flex-col
+              overflow-hidden rounded-xl
+              border border-white/5
+              transition-all duration-300
+              hover:bg-neutral-50/10
+            "
           >
-            <div className="py-3 px-4 space-y-4">
-              <div className="space-y-2">
-                <h5 className="text-base font-bold">{project.name}</h5>
-                <p className="text-muted-foreground text-sm">
+            <div className="flex h-full flex-col gap-5 px-4 py-4 sm:px-5 sm:py-5">
+              {/* content */}
+              <div className="space-y-3">
+                <h5 className="text-base font-semibold leading-snug sm:text-lg">
+                  {project.name}
+                </h5>
+
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   {project.description}
                 </p>
               </div>
-              <div className="flex gap-2 items-center">
-                <Link href="/">
-                  <FaLink className="size-5 hover:text-muted-foreground" />
+
+              {/* links */}
+              <div className="flex items-center gap-4">
+                <Link
+                  href={project.live}
+                  target="_blank"
+                  className="transition-colors hover:text-muted-foreground"
+                >
+                  <FaLink className="size-5" />
                 </Link>
-                <Link href="/">
-                  <FaGithub className="size-5 hover:text-muted-foreground" />
+
+                <Link
+                  href={project.github}
+                  target="_blank"
+                  className="transition-colors hover:text-muted-foreground"
+                >
+                  <FaGithub className="size-5" />
                 </Link>
               </div>
-              <div className="flex flex-wrap gap-2 items-center">
-                {project.stack.map((tech, idx) => (
+
+              {/* stack */}
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((tech) => (
                   <div
-                    key={idx}
-                    className="relative flex items-center gap-2 text-xs py-1 px-2 border border-foreground rounded-lg"
+                    key={tech}
+                    className="
+                      rounded-md border border-white/10
+                      px-2.5 py-1 text-xs font-medium
+                      text-muted-foreground
+                    "
                   >
-                    <span className="font-semibold">{tech}</span>
+                    {tech}
                   </div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </motion.article>
         ))}
       </div>
     </motion.div>
