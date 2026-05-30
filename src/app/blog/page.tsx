@@ -1,5 +1,6 @@
 import Container from "@/components/container";
 import { getAllBlogs } from "@/lib/blog";
+import { formatDate } from "@/lib/utils/formatDate";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 
@@ -27,7 +28,6 @@ export default function Blogs() {
                 {/* left */}
                 <div className="space-y-2 min-w-0">
                   <h5 className="font-semibold leading-snug">{blog.title}</h5>
-
                   <p className="text-sm leading-relaxed text-muted-foreground">
                     {blog.description}
                   </p>
@@ -41,8 +41,7 @@ export default function Blogs() {
                     sm:shrink-0
                   "
                 >
-                  <p className="whitespace-nowrap">{blog.date}</p>
-
+                  <p className="whitespace-nowrap">{formatDate(blog.date)}</p>
                   <FaArrowRight
                     className="
                       size-4 transition-transform duration-300

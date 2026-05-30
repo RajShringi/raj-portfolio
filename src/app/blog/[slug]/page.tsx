@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import { FaCalendarDays } from "react-icons/fa6";
+import { formatDate } from "@/lib/utils/formatDate";
 
 export async function generateStaticParams() {
   const blogs = getAllBlogs();
@@ -47,7 +48,7 @@ export default async function Blog({ params }: BlogProps) {
           <article
             className="prose prose-neutral dark:prose-invert max-w-none
             prose-code:before:content-none
-            prose-code:after:content-none"
+            prose-code:after:content-none px-4"
           >
             <header className="not-prose mb-10">
               <div className="mb-4">
@@ -58,15 +59,9 @@ export default async function Blog({ params }: BlogProps) {
                   {blog.meta.description}
                 </p>
               </div>
-              <div className="m-0 flex items-center gap-2">
+              <div className="m-0 flex items-center gap-2 text-foreground">
                 <FaCalendarDays className="size-3" />
-                <span className="text-sm">
-                  {new Date(blog.meta.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
+                <span className="text-sm">{formatDate(blog.meta.date)}</span>
               </div>
               <hr className="my-6 border border-muted-foreground/20" />
             </header>

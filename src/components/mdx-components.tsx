@@ -1,5 +1,9 @@
 import Image from "next/image";
 
+export function Video(props: React.VideoHTMLAttributes<HTMLVideoElement>) {
+  return <video {...props} className="rounded-lg" />;
+}
+
 export const components = {
   h1: (props: React.HTMLProps<HTMLHeadingElement>) => (
     <h1 className="text-4xl font-bold tracking-tight" {...props} />
@@ -27,7 +31,7 @@ export const components = {
   ),
 
   li: (props: React.HTMLProps<HTMLLIElement>) => (
-    <li className="mt-2" {...props} />
+    <li className="mt-2 text-foreground" {...props} />
   ),
 
   blockquote: (props: React.HTMLProps<HTMLQuoteElement>) => (
@@ -38,7 +42,10 @@ export const components = {
   ),
 
   code: (props: React.ComponentPropsWithoutRef<"code">) => (
-    <code className="rounded px-1 py-0.5 font-mono text-sm" {...props} />
+    <code
+      className="rounded px-1 py-0.5 font-mono text-sm text-foreground"
+      {...props}
+    />
   ),
 
   hr: (props: React.HTMLProps<HTMLHRElement>) => (
@@ -85,4 +92,5 @@ export const components = {
       loading="eager"
     />
   ),
+  Video,
 };
