@@ -12,10 +12,10 @@ export default function Beam() {
         transition={{ duration: 1.4 }}
         className="
           absolute
-          top-[-40px]
-          right-[-220px]
-          h-[620px]
-          w-[620px]
+          -top-10
+          -right-55
+          h-155
+          w-155
           rounded-full
           blur-3xl
           bg-linear-to-br
@@ -33,9 +33,9 @@ export default function Beam() {
         className="
           absolute
           top-40
-          right-[-140px]
-          h-[420px]
-          w-[420px]
+          -right-35
+          h-105
+          w-105
           rounded-full
           blur-3xl
           bg-linear-to-br
@@ -53,9 +53,9 @@ export default function Beam() {
         className="
           absolute
           top-64
-          right-[-320px]
-          h-[140px]
-          w-[820px]
+          -right-80
+          h-35
+          w-205
           rotate-[-14deg]
           rounded-full
           blur-3xl
@@ -75,8 +75,8 @@ export default function Beam() {
           absolute
           top-36
           right-44
-          h-[90px]
-          w-[90px]
+          h-22.5
+          w-22.5
           rounded-full
           blur-2xl
           bg-cyan-100/10
