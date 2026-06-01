@@ -48,7 +48,7 @@ export default async function Blog({ params }: BlogProps) {
           <article
             className="prose prose-neutral dark:prose-invert max-w-none
             prose-code:before:content-none
-            prose-code:after:content-none px-4"
+            prose-code:after:content-none"
           >
             <header className="not-prose mb-10">
               <div className="mb-4">

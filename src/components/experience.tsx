@@ -37,7 +37,7 @@ export default function Experience() {
       initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       transition={{ duration: 0.3, ease: "easeInOut", delay: 0.3 }}
-      className="flex flex-col gap-4 px-4"
+      className="flex flex-col gap-4"
     >
       <h4 className="uppercase tracking-widest">Experience</h4>
 
@@ -52,6 +52,7 @@ export default function Experience() {
               grid grid-cols-1 gap-4
               rounded-xl px-4 py-4
               transition-colors duration-300
+              border border-white/5
               hover:bg-neutral-50/10
               sm:grid-cols-[auto_1fr]
               lg:grid-cols-[auto_1fr_auto]

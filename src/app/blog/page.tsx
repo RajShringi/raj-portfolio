@@ -9,7 +9,7 @@ export default function Blogs() {
 
   return (
     <Container>
-      <div className="flex flex-col gap-4 px-4">
+      <div className="flex flex-col gap-4">
         <h4 className="uppercase tracking-widest">Blogs</h4>
 
         <div className="space-y-4">

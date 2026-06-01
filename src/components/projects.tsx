@@ -57,7 +57,7 @@ export default function Projects() {
       initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="flex flex-col gap-4 px-4"
+      className="flex flex-col gap-4"
     >
       <h4 className="uppercase tracking-widest">Projects</h4>
 
@@ -70,13 +70,13 @@ export default function Projects() {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="
               group flex h-full flex-col
-              overflow-hidden rounded-xl
-              border border-white/5
+              overflow-hidden rounded-xl px-4
               transition-all duration-300
+              border border-white/5
               hover:bg-neutral-50/10
             "
           >
-            <div className="flex h-full flex-col gap-5 px-4 py-4 sm:px-5 sm:py-5">
+            <div className="flex h-full flex-col gap-5 py-4 sm:py-5">
               {/* content */}
               <div className="space-y-3">
                 <h5 className="text-base font-semibold leading-snug sm:text-lg">

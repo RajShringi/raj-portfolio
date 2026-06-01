@@ -7,7 +7,7 @@ export default function Footer() {
       <footer
         className="
           flex flex-col items-center gap-4
-          px-4 py-6
+          py-6
           text-center
           sm:flex-row sm:justify-between
           sm:text-left
