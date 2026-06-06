@@ -10,12 +10,15 @@ export const components = {
   ),
 
   p: (props: React.HTMLProps<HTMLParagraphElement>) => (
-    <p className="leading-7 text-muted-foreground not-first:mt-6" {...props} />
+    <p
+      className="leading-7 text-muted-foreground not-first:mt-6 text-sm"
+      {...props}
+    />
   ),
 
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
-      className="font-medium text-blue-500 underline underline-offset-4"
+      className="font-medium leading-7  text-blue-500 underline underline-offset-4 text-sm"
       target="_blank"
       rel="noopener noreferrer"
       {...props}
@@ -23,27 +26,27 @@ export const components = {
   ),
 
   ul: (props: React.HTMLProps<HTMLUListElement>) => (
-    <ul className="my-6 ml-6 list-disc" {...props} />
+    <ul className="my-6 ml-6 list-disc text-sm leading-7 " {...props} />
   ),
 
   ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => (
-    <ol className="my-6 ml-6 list-decimal" {...props} />
+    <ol className="my-6 ml-6 list-decimal text-sm leading-7" {...props} />
   ),
 
   li: (props: React.HTMLProps<HTMLLIElement>) => (
-    <li className="mt-2 text-foreground" {...props} />
+    <li className="mt-2 text-muted-foreground text-sm leading-7" {...props} />
   ),
 
   blockquote: (props: React.HTMLProps<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-6 border-l-2 pl-6 italic text-muted-foreground"
+      className="mt-6 border-l-2 pl-6 italic text-muted-foreground text-sm leading-7"
       {...props}
     />
   ),
 
   code: (props: React.ComponentPropsWithoutRef<"code">) => (
     <code
-      className="rounded px-1 py-0.5 font-mono text-sm text-foreground"
+      className="rounded px-1 py-0.5 font-mono text-sm text-muted-foreground"
       {...props}
     />
   ),
@@ -75,7 +78,10 @@ export const components = {
   ),
 
   strong: (props: React.HTMLProps<HTMLElement>) => (
-    <strong className="font-semibold text-foreground" {...props} />
+    <strong
+      className="font-semibold text-muted-foreground text-sm leading-7"
+      {...props}
+    />
   ),
 
   pre: (props: React.ComponentPropsWithoutRef<"pre">) => (
