@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import { FaCalendarDays } from "react-icons/fa6";
 import { formatDate } from "@/lib/utils/formatDate";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
   const blogs = getAllBlogs();
@@ -20,6 +21,19 @@ type BlogProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: BlogProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const blog = getBlogBySlug(slug);
+
+  return {
+    title: blog.meta.title,
+    description: blog.meta.description,
+  };
+}
 
 export default async function Blog({ params }: BlogProps) {
   const { slug } = await params;
@@ -55,9 +69,6 @@ export default async function Blog({ params }: BlogProps) {
                 <h1 className="text-4xl mb-4 font-bold text-white">
                   {blog.meta.title}
                 </h1>
-                <p className="text-base text-muted-foreground">
-                  {blog.meta.description}
-                </p>
               </div>
               <div className="m-0 flex items-center gap-2 text-foreground">
                 <FaCalendarDays className="size-3" />

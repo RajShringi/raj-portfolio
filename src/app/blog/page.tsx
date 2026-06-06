@@ -4,6 +4,12 @@ import { formatDate } from "@/lib/utils/formatDate";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 
+export const metadata = {
+  title: "Blogs | Raj Shringi",
+  description:
+    "Read my latest technical articles on software development, web technologies, and programming best practices.",
+};
+
 export default function Blogs() {
   const blogs = getAllBlogs();
 
