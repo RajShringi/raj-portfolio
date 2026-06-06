@@ -66,7 +66,7 @@ export default function TransactionSearchInput() {
   />
 </Video>
 
-So now you may think functionality is there, everything is working, so what's the problem? As we can see, we are sending a
+Now you may think functionality is there, everything is working, what's the problem? As we can see, we are sending a
 request to the server on every keystroke. So why is this bad?
 
 ```text
@@ -82,13 +82,12 @@ bills -> request
 1. For every keystroke, we are processing a backend request. Suppose the user types `bills`. Now we are getting 5 requests,
    instead of 1. On every keystroke, our state changes, which re-render our component, useEffect runs, then request goes to the server,
    our database gets queried and we get response and then our UI updates. This whole process happens on every keystroke. We are making
-   unnecessary api
-   calls.
+   unnecessary api calls.
 2. These unnecessary api calls are increasing backend load. Every time the server receives the request, the database gets
    queried, and scalability becomes worse.
 3. This also affects user experience. UI feels less smooth because of unnecessary rendering and updating.
 
-## So What's The Solution?
+## What's The Solution?
 
 Here, debounce comes into the picture. Debounce is a technique to delay the execution of a function until a specified amount
 of time has passed since the last user action. Instead of sending a request immediately, we can wait until the user pauses typing and
