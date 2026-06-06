@@ -19,11 +19,16 @@ export default function Hero() {
           Software Engineer
         </p>
       </div>
-      <p className="text-pretty text-sm text-muted-foreground">
-        Hey, I am Raj. I design and build web applications from frontend to
-        backend, with a strong focus on usability, performance, and developer
-        experience. I enjoy creating products that feel simple, smooth, and
-        reliable.
+      <p className="text-pretty text-sm text-muted-foreground leading-7">
+        I'm a software developer with experience building responsive web
+        applications using <span className="font-bold">React</span>,{" "}
+        <span className="font-bold">Next.js</span>,{" "}
+        <span className="font-bold">Typescript</span>,{" "}
+        <span className="font-bold">Node.js</span> and{" "}
+        <span className="font-bold">MongoDB</span>. I enjoy turning ideas into
+        products and solving real-world problems through clean, maintainable
+        code. Currently, I'm expanding my backend skills while building personal
+        projects and preparing for my next software engineering role.
       </p>
       <DownloadResumeButton />
       <Skills />

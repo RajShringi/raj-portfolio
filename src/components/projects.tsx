@@ -9,48 +9,36 @@ const projects = [
     id: 1,
     name: "Moneylog",
     description:
-      "A dynamic full-stack application enabling users to manage boards and tasks with responsive design, form validations, theme toggling, drag-and-drop functionality, and persistent data storage.",
+      "Personal finance application that helps users track income and expenses, categorize transactions, and analyze spending patterns.",
     image: "/projects/dashboard.png",
     color: "#22c55e",
     github: "https://github.com/yourusername/moneylog",
     live: "https://moneylog.vercel.app",
-    stack: ["React", "Tailwind CSS", "Next.js"],
+    stack: ["Next.js", "Typescript", "MongoDB", "NextAuth"],
   },
   {
     id: 2,
     name: "Kanban",
     description:
-      "A dynamic full-stack application enabling users to manage boards and tasks with responsive design, form validations, theme toggling, drag-and-drop functionality, and persistent data storage.",
+      "Project management application that enables users to organize tasks across boards and columns, manage workflows with drag-and-drop interactions, and track progress.",
     image: "/projects/kanban.png",
     color: "#3b82f6",
     github: "https://github.com/RajShringi/kanban",
     live: "https://kanban-three-beta.vercel.app/",
-    stack: ["React", "Tailwind CSS", "Next.js"],
+    stack: ["React", "Redux Toolkit", "Express.js", "MongoDB"],
   },
   {
     id: 3,
-    name: "Dictionary",
-    description:
-      "Created a project where users can search for words, view the Free Dictionary API's response, see form validation messages, play audio files, switch fonts and themes, view responsive layouts, and see hover and focus states for all interactive elements.",
-    image: "/projects/dashboard.png",
-    color: "#f97316",
-    github: "https://github.com/RajShringi/Dictionary",
-    live: "https://dictionary-nine-flax.vercel.app/",
-    stack: ["React", "Tailwind CSS", "Next.js"],
-  },
-  {
-    id: 4,
     name: "Portfolio",
     description:
-      "A personal portfolio website showcasing projects, blogs, and experience.",
-    image: "/projects/kanban.png",
+      "Personal website that showcases projects, technical articles, and professional experience while providing a central place to learn more about my work and skills.",
+    image: "/projects/portfolio.png",
     color: "#a855f7",
     github: "https://github.com/yourusername/portfolio",
     live: "https://portfolio.vercel.app",
-    stack: ["React", "Tailwind CSS", "Next.js"],
+    stack: ["Next.js", "Typescript", "Tailwind CSS"],
   },
 ];
-
 export default function Projects() {
   return (
     <motion.div
@@ -61,7 +49,7 @@ export default function Projects() {
     >
       <h4 className="uppercase tracking-widest">Projects</h4>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4">
         {projects.map((project) => (
           <motion.article
             key={project.id}
@@ -83,7 +71,7 @@ export default function Projects() {
                   {project.name}
                 </h5>
 
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-7 text-pretty">
                   {project.description}
                 </p>
               </div>

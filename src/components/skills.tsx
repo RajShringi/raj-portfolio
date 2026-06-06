@@ -43,7 +43,10 @@ export default function Skills() {
       {skills.map((skill) => (
         <div
           key={skill.id}
-          className="relative flex items-center gap-2 text-xs py-1 px-2 border border-foreground rounded-lg"
+          className="
+          rounded-md border border-white/10
+          px-2.5 py-1 text-xs font-bold
+          text-muted-foreground hover:bg-neutral-50/10 transition-colors"
         >
           <span className="font-semibold">{skill.name}</span>
         </div>
