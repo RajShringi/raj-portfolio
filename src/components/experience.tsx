@@ -43,12 +43,7 @@ export default function Experience() {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.3, ease: "easeInOut", delay: 0.3 }}
-      className="flex flex-col gap-4"
-    >
+    <div className="flex flex-col gap-4">
       <h4 className="uppercase tracking-widest">Experience</h4>
 
       <div className="flex flex-col gap-4 sm:gap-5">
@@ -57,13 +52,12 @@ export default function Experience() {
             key={exp.id}
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ amount: 0.4 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="
               rounded-xl
               p-4 sm:p-5
-              border border-white/5
-              transition-colors duration-300
-              hover:bg-neutral-50/10
+              
               flex flex-col gap-4
             "
           >
@@ -111,6 +105,6 @@ export default function Experience() {
           </motion.div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }

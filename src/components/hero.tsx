@@ -10,6 +10,7 @@ export default function Hero() {
     <motion.div
       initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ amount: 0.4 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="space-y-4"
     >

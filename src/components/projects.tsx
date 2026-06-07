@@ -41,12 +41,7 @@ const projects = [
 ];
 export default function Projects() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="flex flex-col gap-4"
-    >
+    <div className="flex flex-col gap-4">
       <h4 className="uppercase tracking-widest">Projects</h4>
 
       <div className="grid grid-cols-1 gap-4">
@@ -55,6 +50,7 @@ export default function Projects() {
             key={project.id}
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ amount: 0.4 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="
               group flex h-full flex-col
@@ -114,6 +110,6 @@ export default function Projects() {
           </motion.article>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
