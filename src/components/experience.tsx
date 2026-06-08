@@ -44,7 +44,15 @@ export default function Experience() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h4 className="uppercase tracking-widest">Experience</h4>
+      <motion.h4
+        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        viewport={{ amount: 0.4 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="uppercase tracking-widest"
+      >
+        Experience
+      </motion.h4>
 
       <div className="flex flex-col gap-4 sm:gap-5">
         {experience.map((exp) => (

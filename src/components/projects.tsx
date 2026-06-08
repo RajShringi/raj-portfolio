@@ -42,7 +42,15 @@ const projects = [
 export default function Projects() {
   return (
     <div className="flex flex-col gap-4">
-      <h4 className="uppercase tracking-widest">Projects</h4>
+      <motion.h4
+        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        viewport={{ amount: 0.4 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="uppercase tracking-widest"
+      >
+        Projects
+      </motion.h4>
 
       <div className="grid grid-cols-1 gap-4">
         {projects.map((project) => (
