@@ -12,8 +12,8 @@ const projects = [
       "Personal finance application that helps users track income and expenses, categorize transactions, and analyze spending patterns.",
     image: "/projects/dashboard.png",
     color: "#22c55e",
-    github: "https://github.com/yourusername/moneylog",
-    live: "https://moneylog.vercel.app",
+    github: "https://github.com/RajShringi/moneylog",
+    live: "https://moneylog-liard.vercel.app/",
     stack: ["Next.js", "Typescript", "MongoDB", "NextAuth"],
   },
   {
@@ -34,8 +34,8 @@ const projects = [
       "Personal website that showcases projects, technical articles, and professional experience while providing a central place to learn more about my work and skills.",
     image: "/projects/portfolio.png",
     color: "#a855f7",
-    github: "https://github.com/yourusername/portfolio",
-    live: "https://portfolio.vercel.app",
+    github: "https://github.com/RajShringi/raj-portfolio",
+    live: "https://raj-shringi.vercel.app/",
     stack: ["Next.js", "Typescript", "Tailwind CSS"],
   },
 ];
