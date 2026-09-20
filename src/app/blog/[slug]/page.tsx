@@ -82,7 +82,8 @@ export default async function Blog({ params }: BlogProps) {
         </Container>
       </main>
     );
-  } catch {
+  } catch (error) {
+    console.log(error);
     notFound();
   }
 }
