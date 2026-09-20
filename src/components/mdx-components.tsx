@@ -46,7 +46,7 @@ export const components = {
 
   code: (props: React.ComponentPropsWithoutRef<"code">) => (
     <code
-      className="rounded px-1 py-0.5 font-mono text-sm text-muted-foreground"
+      className="rounded px-1 py-0.5 font-mono text-sm text-foreground"
       {...props}
     />
   ),
@@ -79,7 +79,7 @@ export const components = {
 
   strong: (props: React.HTMLProps<HTMLElement>) => (
     <strong
-      className="font-semibold text-muted-foreground text-sm leading-7"
+      className="font-semibold text-foreground text-sm leading-7"
       {...props}
     />
   ),
