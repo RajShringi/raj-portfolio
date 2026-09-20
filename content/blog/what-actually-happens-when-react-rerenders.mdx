@@ -1,0 +1,122 @@
+---
+title: "What Actually Happens When React Re-renders?"
+description: "Re-rendering is not what you think."
+date: "2026-09-03"
+---
+
+I have been learning about React performance optimization patterns. While learning, I kept coming across the concept of re-rendering. This made me curious about what actually happens when React re-renders a component.
+
+When I started learning React, I was able to build small apps, but I didn't fully understand the concept of rendering and re-rendering. I assume most of us started our journey with React like this. We just have enough knowledge: state changes trigger a component to re-render. But what does rendering actually mean? When a component re-renders, does the UI of that component update in the browser DOM also? We are going to find the answers to these questions in this article.
+
+## What exactly is a render?
+
+Rendering is the process where React calls a component to figure out what the user interface (UI) should look like. React components are simple JavaScript functions. React calls these component functions, and these component functions run from top to bottom to determine what the UI should look like.
+
+When React first renders the application, it calls the components to determine the initial UI. This is the initial render. After that, when something changes that causes a re-render, React renders the relevant component again.
+
+Here, we should understand the difference between rendering and browser DOM updates.
+
+```text
+Re-render ≠ DOM update
+```
+
+A re-render doesn't necessarily mean that React will make a change to the browser DOM. When state changes, React gets a new representation of what the UI should look like. React then compares the new UI representation with the old one to determine what changed. This process is known as reconciliation. React then updates only the necessary part of the browser DOM.
+
+Let's understand this with an example.
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <p>This is a counter</p>
+      <p>You clicked {count}</p>
+      <button onClick={() => setCount((prev) => prev + 1)}>Increment</button>
+    </>
+  );
+}
+```
+
+On initial render, our UI will look like this.
+
+```text
+This is a counter
+You clicked 0
+Increment
+```
+
+Now, when we click the increment button, React re-renders the component again.
+
+```text
+This is a counter
+You clicked 1
+Increment
+```
+
+Does React update both the `<p>` elements and the `<button>` element in the browser DOM when state changes? No. When state updates, React gets a new UI representation and determines that the text inside the second `<p>` element has changed. It updates that text in the browser DOM while leaving the other DOM elements unchanged.
+
+## Re-rendering Is More Than State Changes
+
+```jsx
+import { useState } from "react";
+
+// Parent
+function Counter() {
+  const [count, setCount] = useState(0);
+  console.log("Counter render");
+  return (
+    <div>
+      {/* Child 1 */}
+      <Heading />
+
+      {/* Child 2 */}
+      <CounterDisplay count={count} />
+
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+// Child 1
+function Heading() {
+  console.log("Heading render");
+  return <h1>This is counter</h1>;
+}
+
+// Child 2
+function CounterDisplay({ count }) {
+  console.log("CounterDisplay render");
+  return <p>Count: {count}</p>;
+}
+
+export default Counter;
+```
+
+We have a parent `Counter` component and two child components, `Heading` and `CounterDisplay`. `Heading` component isn't taking any props. It just shows text. `CounterDisplay` component takes `count` as a prop and displays the `count` value. So now, when the user clicks the Increment button, the count value changes from 0 to 1. How does this affect the UI?
+
+When we learn React, we learn some simple rules: a component can re-renders when its state changes, its props change, or when it consumes a context value that changes. So, according to these rules, the `Counter` component should re-render because its state changed, and `CounterDisplay` should re-render because its props changed. What about `Heading`? It is not taking any props. So it shouldn't re-render, right? Well, not quite. As we can see in the image below, all three components re-render.
+
+<img
+  src="/blog/images/what-actually-happens-when-react-re-renders/render-result.png"
+  alt="render-result"
+/>
+
+The React rules we discuss aren't entirely wrong, but they don't give us the full picture. Here is the missing piece: **By default, when a parent component renders again, React will also render its child components.** This happens even if a child receives the same props as before—or doesn't receive any props at all.
+
+So when the `Counter` component renders again, its child components also render by default, whether we are passing props or not. In our example, we aren't passing any props to the `Heading` component, but it still renders again. Similarly, if we pass a constant value to the `CounterDisplay` component, even though its props haven't changed, `CounterDisplay` still renders. The important part is not whether the prop changed. The child is still rendered when its parent renders.
+
+```jsx
+// passing a constant instead of count
+<CounterDisplay count={1} />
+```
+
+Here we get the same render result we got above. All three components re-render.
+
+## Conclusion
+
+The important thing to understand is that a re-render does not mean React updates every element in the browser DOM. A component can run again while React determines that only a small part of the DOM actually needs to change. We also saw that when a parent component renders again, its child components can render again as well—even when a child receives the same props or no props at all.
+
+This raises an important question: **if a child component doesn't need to render again, can we prevent that unnecessary work?**
+
+That's where memoization comes in. In the next article, we'll look at React.memo, understand what problem it solves, and see how it changes the rendering behavior of child components.
