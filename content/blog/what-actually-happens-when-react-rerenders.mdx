@@ -95,27 +95,20 @@ export default Counter;
 
 We have a parent `Counter` component and two child components, `Heading` and `CounterDisplay`. `Heading` component isn't taking any props. It just shows text. `CounterDisplay` component takes `count` as a prop and displays the `count` value. So now, when the user clicks the Increment button, the count value changes from 0 to 1. How does this affect the UI?
 
-When we learn React, we learn some simple rules: a component can re-renders when its state changes, its props change, or when it consumes a context value that changes. So, according to these rules, the `Counter` component should re-render because its state changed, and `CounterDisplay` should re-render because its props changed. What about `Heading`? It is not taking any props. So it shouldn't re-render, right? Well, not quite. As we can see in the image below, all three components re-render.
+When we learn React, we learn some simple rules: a component can re-render when its state changes, its props change, or when it consumes a context value that changes. So, according to these rules, the `Counter` component should re-render because its state changed, and `CounterDisplay` should re-render because it receives a new `count` prop. What about `Heading`? It is not taking any props. So it shouldn't re-render, right? Well, not quite. As we can see in the image below, all three components re-render.
 
 <img
   src="/blog/images/what-actually-happens-when-react-re-renders/render-result.png"
   alt="render-result"
 />
 
-The React rules we discuss aren't entirely wrong, but they don't give us the full picture. Here is the missing piece: **By default, when a parent component renders again, React will also render its child components.** This happens even if a child receives the same props as before—or doesn't receive any props at all.
+The React rules we discuss aren't entirely wrong, but they don't give us the full picture. Here is the missing piece: **By default, when a parent component renders again, React will also render its child components**. So, in our example, when the `Counter` component renders again, its child components also render by default. This means that `CounterDisplay` doesn't re-render because its prop changed. It re-renders because its parent, `Counter`, rendered again. The same is true for `Heading`. It doesn't receive any props, but it still renders again because its parent rendered again.
 
-So when the `Counter` component renders again, its child components also render by default, whether we are passing props or not. In our example, we aren't passing any props to the `Heading` component, but it still renders again. Similarly, if we pass a constant value to the `CounterDisplay` component, even though its props haven't changed, `CounterDisplay` still renders. The important part is not whether the prop changed. The child is still rendered when its parent renders.
-
-```jsx
-// passing a constant instead of count
-<CounterDisplay count={1} />
-```
-
-Here we get the same render result we got above. All three components re-render.
+The important part is that a child component doesn't need to receive new props to render again. When its parent renders, the child will also render by default.
 
 ## Conclusion
 
-The important thing to understand is that a re-render does not mean React updates every element in the browser DOM. A component can run again while React determines that only a small part of the DOM actually needs to change. We also saw that when a parent component renders again, its child components can render again as well—even when a child receives the same props or no props at all.
+A re-render does not mean React updates every element in the browser DOM. A component can run again while React determines that only a small part of the DOM actually needs to change. We also saw that when a parent component renders again, its child components can render again.
 
 This raises an important question: **if a child component doesn't need to render again, can we prevent that unnecessary work?**
 
