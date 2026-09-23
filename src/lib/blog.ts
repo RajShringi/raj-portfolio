@@ -9,6 +9,7 @@ export type BlogMeta = {
   title: string;
   description: string;
   date: string;
+  image: string;
 };
 
 export function getAllBlogs(): BlogMeta[] {
@@ -23,6 +24,7 @@ export function getAllBlogs(): BlogMeta[] {
       title: data.title,
       description: data.description,
       date: data.date,
+      image: data.image,
     };
   });
 
@@ -41,6 +43,7 @@ export function getBlogBySlug(slug: string) {
       title: data.title,
       description: data.description,
       date: data.date,
+      image: data.image,
     },
     content,
   };
