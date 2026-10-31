@@ -18,7 +18,7 @@ export const components = {
 
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
-      className="font-medium leading-7  text-blue-500 underline underline-offset-4 text-sm"
+      className="font-medium leading-7  text-rose-400 underline underline-offset-4 text-sm"
       target="_blank"
       rel="noopener noreferrer"
       {...props}
@@ -39,7 +39,7 @@ export const components = {
 
   blockquote: (props: React.HTMLProps<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-6 border-l-2 pl-6 italic text-muted-foreground text-sm leading-7"
+      className="mt-8 rounded-r-lg border-l-4 border-blue-500 bg-slate-100 px-5 py-2 text-sm leading-1 text-slate-700 dark:border-sky-200 dark:bg-sky-800/10 dark:text-foreground"
       {...props}
     />
   ),
