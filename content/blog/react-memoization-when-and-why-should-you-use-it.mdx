@@ -1,0 +1,325 @@
+---
+title: "React Memoization: When and Why Should You Use It?"
+description: "Prevent unnecessary rendering work in React."
+date: "2026-10-31"
+image: "/blog/og-images/react-memoization-when-and-why-should-you-use-it.png"
+---
+
+Building on my previous article: [What Actually Happens When React Re-renders?](https://raj-shringi.vercel.app/blog/what-actually-happens-when-react-re-renders)
+
+> **NOTE:** React Compiler can automatically handle memoization in React applications, reducing the need to manually use `React.memo()`, `useMemo()`, and `useCallback()`. However, it needs to be installed and configured in your project. This article explains how manual memoization works and when to use these APIs.
+
+In the last article, we learned that when a parent re-renders, its child components can render again. Before we move on, we have to ask a question. Why is it bad if child components render again?
+
+Our goal is not to prevent child components from re-rendering. The goal is to avoid unnecessary re-renders that provide no benefits. Child re-rendering in itself is not a problem. Unnecessary re-rendering is a problem.
+
+Suppose we have an expensive child component that doesn't receive any props, or its props haven't changed, but when the parent re-renders, it also re-renders and performs an expensive calculation every time it re-renders. Here, only the parent state changes, but our expensive child components also get re-rendered. It affects the performance of our app.
+
+```jsx
+import { useState } from "react";
+
+function App() {
+  return <Parent />;
+}
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  console.log("Parent component render");
+  return (
+    <>
+      <h1>Hello World</h1>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+      <ExpensiveChild name={"John"} />
+    </>
+  );
+}
+
+function ExpensiveChild({ name }) {
+  console.log("child render");
+  // Imagine this component performs
+  // complex calculations and renders a large UI.
+  let result = 0;
+  for (let i = 0; i < 10000000; i++) {
+    result += i;
+  }
+  return <div>Hello {name}</div>;
+}
+
+export default App;
+```
+
+<img
+  src="/blog/gifs/react-memoization-when-and-why-should-you-use-it/without_memo.gif"
+  alt="React rendering without memoization"
+  className="w-full"
+/>
+
+So what can we do to prevent unnecessary child re-rendering? That’s where memoization comes into the picture.
+Memoization is a technique that caches the result of the function and reuses that result when that function is called again with the same inputs, instead of recalculating it.
+
+`f(x) = y`
+
+- First call: f(x) calculates and returns y, then caches the result.
+- Next call: f(x) finds the cached result for x and returns y without recalculating.
+
+React provides three APIs for memoization and avoiding unnecessary rendering work: React.memo(), useCallback(), useMemo(). Let’s understand what each one does and when to use it.
+
+## React.memo()
+
+React.memo is a higher-order function that can skip re-rendering a component when props haven’t changed. React.memo wraps a component and lets React reuse the previous rendering result. On the next render cycle, `React.memo` does a shallow comparison between the previous and new props. If nothing has changed, React can skip rendering the component.
+
+Now let's use React.memo to stop child rendering in our previous example.
+
+```jsx
+import { useState, memo } from "react";
+
+function App() {
+  return <Parent />;
+}
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  console.log("Parent component render");
+  return (
+    <>
+      <h1>Hello World</h1>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+      <ExpensiveChild name={"John"} />
+    </>
+  );
+}
+
+const ExpensiveChild = memo(function ExpensiveChild({ name }) {
+  console.log("child render");
+  let result = 0;
+  for (let i = 0; i < 10000000; i++) {
+    result += i;
+  }
+  return <div>Hello {name}</div>;
+});
+
+export default App;
+```
+
+<img
+  src="/blog/gifs/react-memoization-when-and-why-should-you-use-it/with_memo.gif"
+  alt="React rendering with memoization"
+  className="w-full"
+/>
+
+On the initial render, both the parent and child components render. When the parent state changes, the parent renders again. However, React.memo compares the previous and new name props. Since the prop hasn't changed, React skips re-rendering the `<ExpensiveChild />` component and reuses its previous result.
+
+One important thing: `React.memo` is an optimization, not a guarantee. React can still render a memoized component for other reasons, such as component state changes and context it consumes changes.
+
+## useCallback()
+
+To understand useCallback, let’s look at the example first.
+
+```jsx
+import { useState, memo } from "react";
+
+function App() {
+  return <Parent />;
+}
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  console.log("Parent component render");
+  const handleClick = () => console.log("button clicked");
+  return (
+    <>
+      <h1>Hello World</h1>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+      <ExpensiveChild handleClick={handleClick} />
+    </>
+  );
+}
+
+const ExpensiveChild = memo(function ExpensiveChild({ handleClick }) {
+  // Imagine this component performs
+  // complex calculations and renders a large UI.
+  console.log("child render");
+  let result = 0;
+  for (let i = 0; i < 10000000; i++) {
+    result += i;
+  }
+  return <button onClick={handleClick}>click me</button>;
+});
+
+export default App;
+```
+
+This example is similar to the last one, but this time instead of passing `name` as a prop we are passing the `handleClick` function to our memoized `<ExpensiveChild />` component. When we change the `count` state of our `<Parent />` component, we expect only `<Parent />` to re-render because our `<ExpensiveChild />` component is memoized and we are passing the same function prop.
+
+When we run the code, we see that when `count` changes, the `<ExpensiveChild />` component also re-renders. But why? React.memo should skip the `<ExpensiveChild />` component re-render. Aren’t we passing the same handleClick function?
+
+<img
+  src="/blog/gifs/react-memoization-when-and-why-should-you-use-it/without_useCallback.gif"
+  alt="React rendering without useCallback"
+  className="w-full"
+/>
+
+Here basic JavaScript comes into the picture. As we learned that `React.memo` does a shallow comparison between previous props and new props. Functions, objects, and arrays are reference types in JavaScript. Every time the `<Parent />` component renders, it creates a new handleClick function. The new function has a different reference from the previous function. So it looks like we are passing the same handleClick function, but actually we are passing a different reference to the handleClick function. React.memo does a shallow comparison and sees that props have changed because of different reference of function. So it doesn’t skip the ExpensiveChild component re-render.
+
+Now, how to fix this? React gives us an in-built hook called useCallback. `useCallback` returns the previously cached function reference between renders when its dependencies haven’t changed. If dependencies have changed, it will return a new function reference.
+
+Let’s use useCallback in our example to pass the same reference between renders.
+
+```jsx
+import { useState, useCallback, memo } from "react";
+
+function App() {
+  return <Parent />;
+}
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  console.log("Parent component render");
+  const handleClick = useCallback(() => console.log("button clicked"), []);
+  return (
+    <>
+      <h1>Hello World</h1>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+      <ExpensiveChild handleClick={handleClick} />
+    </>
+  );
+}
+
+const ExpensiveChild = memo(function ExpensiveChild({ handleClick }) {
+  // Imagine this component performs
+  // complex calculations and renders a large UI.
+  console.log("child render");
+  let result = 0;
+  for (let i = 0; i < 10000000; i++) {
+    result += i;
+  }
+  return <button onClick={handleClick}>click me</button>;
+});
+
+export default App;
+```
+
+<img
+  src="/blog/gifs/react-memoization-when-and-why-should-you-use-it/with_useCallback.gif"
+  alt="React rendering with useCallback"
+  className="w-full"
+/>
+
+Now, even if count changes, we will get the same function reference for the handleClick function. This way, we can avoid unnecessary rendering of the ExpensiveChild component.
+
+## useMemo()
+
+useMemo is used to cache the result of a calculation between re-renders and reuse it when its dependencies haven’t changed. Let’s see an example of useMemo.
+
+```jsx
+import { useState } from "react";
+
+function ProductList({ products }) {
+  const [theme, setTheme] = useState("light");
+  const [search, setSearch] = useState("");
+
+  console.log("filtering products");
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const changeTheme = () => {
+    console.log("theme changed");
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button onClick={changeTheme}>Toggle Theme</button>
+      <h2>THEME: {theme}</h2>
+      <div className={theme}>
+        {filteredProducts.map((product) => (
+          <p key={product.id}>{product.name}</p>
+        ))}
+      </div>
+    </>
+  );
+}
+```
+
+We have a `<ProductList />` component with theme and search state. Imagine this component takes 1,000,000 products, and the user can search the products by name. When the user searches for a product, the search state changes and the component re-renders. The products are filtered and displayed to the user. Till now, everything is working fine. What happens when we change the theme?.
+
+<img
+  src="/blog/gifs/react-memoization-when-and-why-should-you-use-it/without_useMemo.gif"
+  alt="React rendering without useMemo"
+  className="w-full"
+/>
+
+Even though we are changing the theme, we see that products get filtered. Our component is doing unnecessary filtering even when the user is not searching for a product. To avoid this, React provides the useMemo hook.
+
+```jsx
+import { useState, useMemo } from "react";
+
+function ProductList({ products }) {
+  const [theme, setTheme] = useState("light");
+  const [search, setSearch] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    console.log("filtering products");
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [products, search]);
+
+  const changeTheme = () => {
+    console.log("theme changed");
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button onClick={changeTheme}>Toggle Theme</button>
+      <h2>THEME: {theme}</h2>
+      <div className={theme}>
+        {filteredProducts.map((product) => (
+          <p key={product.id}>{product.name}</p>
+        ))}
+      </div>
+    </>
+  );
+}
+```
+
+<img
+  src="/blog/gifs/react-memoization-when-and-why-should-you-use-it/with_useMemo.gif"
+  alt="React rendering with useMemo"
+  className="w-full"
+/>
+
+Now products only gets filtered again when either we get new products or the user searches for a product. When the `theme` changes, React reuses the previous filtered products.
+
+## What’s the catch?
+
+If you are thinking that memoization helps improve the performance of our app, we should use it everywhere. Right?
+Memoization has its own cost. React needs to store the cached value, compare dependencies and props to determine whether it can reuse previous values. If calculation is cheap or the component is inexpensive to render, memoization might not provide significant benefit. On the other hand, it will make your code more complicated. Use memoization when it solves an actual performance problem, rather than using it everywhere.
+
+Below are the common use cases where we can use memoization. By the way, these aren't strict rules.
+
+`React.memo()`
+
+- When a child component is expensive to render and receives the same props between renders.
+
+`useCallback()`
+
+- When passing the function to a memoized child component to avoid unnecessary rendering.
+- When using a function as a dependency of another Hook, such as `useEffect`.
+
+`useMemo()`
+
+- When caching the result of an expensive calculation between renders.
+- When passing an array or object to a memoized child component to avoid unnecessary rendering.
