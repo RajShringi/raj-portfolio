@@ -59,39 +59,9 @@ export const metadata: Metadata = {
 
   creator: "Raj Shringi",
 
-  alternates: {
-    canonical: "https://raj-shringi.vercel.app",
-  },
-
   robots: {
     index: true,
     follow: true,
-  },
-
-  openGraph: {
-    title: "Raj Shringi | Software Developer",
-    description:
-      "Software Developer focused on building modern web applications with React, Next.js, TypeScript, Node.js, PostgreSQL, and MongoDB.",
-    url: "https://raj-shringi.vercel.app",
-    siteName: "Raj Shringi Portfolio",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Raj Shringi Portfolio",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Raj Shringi | Software Developer",
-    description:
-      "Software Developer focused on building modern web applications with React, Next.js, TypeScript, Node.js, PostgreSQL, and MongoDB.",
-    images: ["/og-image.png"],
   },
 
   icons: {
@@ -109,10 +79,7 @@ export default function RootLayout({
       lang="en"
       className={`${lexend.className} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body
-        className="min-h-full flex flex-col bg-background text-foreground
-      "
-      >
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <div className="bg-[url('/patterns/dots.png')] opacity-2 fixed overflow-auto inset-0 pointer-events-none z-1000"></div>
         <Beam />
         <div className="flex flex-col h-screen">

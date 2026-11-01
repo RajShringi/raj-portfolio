@@ -7,10 +7,11 @@ import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import { FaCalendarDays } from "react-icons/fa6";
 import { formatDate } from "@/lib/utils/formatDate";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   const blogs = getAllBlogs();
+
   return blogs.map((blog) => ({
     slug: blog.slug,
   }));
@@ -32,9 +33,16 @@ export async function generateMetadata({
   return {
     title: blog.meta.title,
     description: blog.meta.description,
+
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
+
     openGraph: {
       title: blog.meta.title,
       description: blog.meta.description,
+      url: `/blog/${slug}`,
+      siteName: "Raj Shringi Portfolio",
       images: [
         {
           url: blog.meta.image,
@@ -45,6 +53,7 @@ export async function generateMetadata({
       ],
       type: "article",
     },
+
     twitter: {
       card: "summary_large_image",
       title: blog.meta.title,
@@ -56,53 +65,60 @@ export async function generateMetadata({
 
 export default async function Blog({ params }: BlogProps) {
   const { slug } = await params;
-  try {
-    const blog = getBlogBySlug(slug);
-    const { content } = await compileMDX({
-      source: blog.content,
-      options: {
-        mdxOptions: {
-          remarkPlugins: [remarkGfm],
-          rehypePlugins: [
-            [
-              rehypePrettyCode,
-              {
-                theme: "github-dark",
-              },
-            ],
-          ],
-        },
-      },
-      components,
-    });
-    return (
-      <main>
-        <Container>
-          <article
-            className="prose prose-neutral dark:prose-invert max-w-none
-            prose-code:before:content-none
-            prose-code:after:content-none"
-          >
-            <header className="not-prose mb-10">
-              <div className="mb-4">
-                <h1 className="text-4xl mb-4 font-bold text-white">
-                  {blog.meta.title}
-                </h1>
-              </div>
-              <div className="m-0 flex items-center gap-2 text-foreground">
-                <FaCalendarDays className="size-3" />
-                <span className="text-sm">{formatDate(blog.meta.date)}</span>
-              </div>
-              <hr className="my-6 border border-muted-foreground/20" />
-            </header>
 
-            {content}
-          </article>
-        </Container>
-      </main>
-    );
+  let blog;
+
+  try {
+    blog = getBlogBySlug(slug);
   } catch (error) {
     console.log(error);
     notFound();
   }
+
+  const { content } = await compileMDX({
+    source: blog.content,
+    options: {
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [
+          [
+            rehypePrettyCode,
+            {
+              theme: "github-dark",
+            },
+          ],
+        ],
+      },
+    },
+    components,
+  });
+
+  return (
+    <main>
+      <Container>
+        <article
+          className="prose prose-neutral dark:prose-invert max-w-none
+          prose-code:before:content-none
+          prose-code:after:content-none"
+        >
+          <header className="not-prose mb-10">
+            <div className="mb-4">
+              <h1 className="text-4xl mb-4 font-bold text-white">
+                {blog.meta.title}
+              </h1>
+            </div>
+
+            <div className="m-0 flex items-center gap-2 text-foreground">
+              <FaCalendarDays className="size-3" />
+              <span className="text-sm">{formatDate(blog.meta.date)}</span>
+            </div>
+
+            <hr className="my-6 border border-muted-foreground/20" />
+          </header>
+
+          {content}
+        </article>
+      </Container>
+    </main>
+  );
 }
